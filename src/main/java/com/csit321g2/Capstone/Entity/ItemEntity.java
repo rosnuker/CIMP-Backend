@@ -1,6 +1,7 @@
 package com.csit321g2.Capstone.Entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -63,6 +64,9 @@ public class ItemEntity {
 
 	private Integer request;
 
+	@JsonFormat(pattern = "MM-dd-yyyy HH:mm:ss")
+    private LocalDateTime dateTime;
+
 	private boolean isConsumable;
 
 	private boolean isDeleted;
@@ -73,7 +77,7 @@ public class ItemEntity {
 	public ItemEntity(Integer issueOrder, UserEntity accPerson, String invoiceNumber, LocalDate invoiceDate,
 			String supplier, int quantity, String unitOfMeasurement, DescriptionEntity description, float unitCost,
 			float totalCost, LocationEntity location, String status, String lifespan, String remarks, Integer request,
-			boolean isConsumable, boolean isDeleted) {
+			LocalDateTime dateTime, boolean isConsumable, boolean isDeleted) {
 		this.issueOrder = issueOrder;
 		this.accPerson = accPerson;
 		this.invoiceNumber = invoiceNumber;
@@ -89,6 +93,7 @@ public class ItemEntity {
 		this.lifespan = lifespan;
 		this.remarks = remarks;
 		this.request = request;
+		this.dateTime = dateTime;
 		this.isConsumable = isConsumable;
 		this.isDeleted = isDeleted;
 	}
@@ -219,6 +224,14 @@ public class ItemEntity {
 
 	public void setRequest(Integer request) {
 		this.request = request;
+	}
+
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public boolean isConsumable() {

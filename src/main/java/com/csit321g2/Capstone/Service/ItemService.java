@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.csit321g2.Capstone.Entity.ItemEntity;
 import com.csit321g2.Capstone.Entity.LogEntity;
+import com.csit321g2.Capstone.Entity.RequestEntity;
 import com.csit321g2.Capstone.Entity.UserEntity;
 import com.csit321g2.Capstone.Repository.ItemRepository;
 import com.csit321g2.Capstone.Repository.ItemRepositoryCustom;
+import com.csit321g2.Capstone.Repository.RequestRepository;
 import com.csit321g2.Capstone.Repository.UserRepository;
 import java.util.Collections;
 
@@ -30,6 +32,9 @@ public class ItemService {
 
 	@Autowired
 	UserRepository urepo;
+
+	@Autowired
+	RequestRepository rrepo;
 
 	public List<ItemEntity> getItemDash(){
 		return irepo.getItemDash();
@@ -305,13 +310,34 @@ public class ItemService {
         irepo.save(item);
     }
 
+	// @Transactional
+	// public void unassignUserFromItem(Long itemId) {
+	// 	ItemEntity item = irepo.findById(itemId)
+	// 			.orElseThrow(() -> new RuntimeException("Item not found"));
+		
+	// 	item.setAccPerson(null);
+	// 	item.setStatus("TO BE ASSIGNED");
+	// 	irepo.save(item);
+	// }
+
 	@Transactional
 	public void unassignUserFromItem(Long itemId) {
 		ItemEntity item = irepo.findById(itemId)
 				.orElseThrow(() -> new RuntimeException("Item not found"));
 		
+		List<RequestEntity> requests = rrepo.findByItemAccPerId(item.getAccPerson().getUid());
+
 		item.setAccPerson(null);
 		item.setStatus("TO BE ASSIGNED");
+		
+		for (RequestEntity request : requests) {
+			if (item.getDateTime() != null && request.getDateReq() != null && item.getDateTime().isEqual(request.getDateReq())) {
+				request.setDeleted(true);
+				request.setStatus("UNASSIGNED");
+				rrepo.save(request);
+			}
+		}
+
 		irepo.save(item);
 	}
 

@@ -39,12 +39,14 @@ public class RequestEntity {
     private String itemSerialNumber;
     private boolean itemConsumable;
 
+    private boolean isDeleted;
+
     public RequestEntity() {
     }
 
     public RequestEntity(LocalDateTime dateReq, LocalDateTime date_app, String status, String reason, Long itemAccPerId,
             Long itemId, String itemName, int itemQuantity, String itemUnitOfMeasurement, float itemTotalCost,
-            String itemStatus, String itemModel, String itemSerialNumber, boolean itemConsumable) {
+            String itemStatus, String itemModel, String itemSerialNumber, boolean itemConsumable, boolean isDeleted) {
         this.dateReq = dateReq;
         this.date_app = date_app;
         this.status = status;
@@ -59,8 +61,8 @@ public class RequestEntity {
         this.itemModel = itemModel;
         this.itemSerialNumber = itemSerialNumber;
         this.itemConsumable = itemConsumable;
+        this.isDeleted = isDeleted;
     }
-
 
     public long getRid() {
         return rid;
@@ -180,6 +182,14 @@ public class RequestEntity {
 
     public void setItemConsumable(boolean itemConsumable) {
         this.itemConsumable = itemConsumable;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }

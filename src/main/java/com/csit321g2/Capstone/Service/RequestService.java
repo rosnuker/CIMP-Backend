@@ -57,6 +57,10 @@ public class RequestService {
 
         request.setDateReq(LocalDateTime.now());
         request.setStatus("PENDING");
+
+        item.setDateTime(request.getDateReq());
+        irepo.save(item);
+
         return rrepo.save(request);
     }
 
