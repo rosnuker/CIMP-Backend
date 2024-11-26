@@ -14,13 +14,13 @@ import com.csit321g2.Capstone.Entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByUsername(String username);
 
-    @Query("SELECT new com.csit321g2.Capstone.Entity.UserEntity(u.uid, u.fname, u.lname, u.username, u.department, u.designation, u.type, u.isDeleted) FROM UserEntity u WHERE u.uid = :uid")
+    @Query("SELECT new com.csit321g2.Capstone.Entity.UserEntity(u.uid, u.fname, u.lname, u.username, u.department, u.designation, u.type, u.isDeleted, u.isLoggedIn) FROM UserEntity u WHERE u.uid = :uid")
     UserEntity findByIdWithoutPassword(@Param("uid") Long uid);
 
-    @Query("SELECT new com.csit321g2.Capstone.Entity.UserEntity(u.uid, u.fname, u.lname, u.username, u.department, u.designation, u.type, u.isDeleted) FROM UserEntity u WHERE u.username = :username")
+    @Query("SELECT new com.csit321g2.Capstone.Entity.UserEntity(u.uid, u.fname, u.lname, u.username, u.department, u.designation, u.type, u.isDeleted, u.isLoggedIn) FROM UserEntity u WHERE u.username = :username")
     UserEntity findByUsernameWithoutPassword(@Param("username") String username);
 
-    @Query("SELECT new com.csit321g2.Capstone.Entity.UserEntity(u.uid, u.fname, u.lname, u.username, u.department, u.designation, u.type, u.isDeleted) FROM UserEntity u")
+    @Query("SELECT new com.csit321g2.Capstone.Entity.UserEntity(u.uid, u.fname, u.lname, u.username, u.department, u.designation, u.type, u.isDeleted, u.isLoggedIn) FROM UserEntity u")
     List<UserEntity> findAllUsersWithoutPassword();
 
     @Query("SELECT u FROM UserEntity u WHERE CONCAT(u.fname, ' ', u.lname) = :fullName")

@@ -36,6 +36,7 @@ public class DatabaseInitializer {
             admin.setDepartment("SECURITY");
             admin.setDesignation("Head Admin");
             admin.setDeleted(false);
+            admin.setLoggedIn(false);
 
             urepo.save(admin);
             logger.info("Admin Created!");

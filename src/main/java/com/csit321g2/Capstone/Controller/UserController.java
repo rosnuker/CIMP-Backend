@@ -19,7 +19,7 @@ import com.csit321g2.Capstone.Service.UserService;
 
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:5173", "http://10.241.4.80:5173", "http://10.241.126.247:5173", "http://10.241.242.242:5173/"})
+@CrossOrigin(origins = {"http://localhost:6969", "http://10.241.4.80:5173", "http://10.241.126.247:5173", "http://10.241.242.242:5173/"})
 public class UserController {
 
     @Autowired
@@ -57,6 +57,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserEntity> login(@RequestBody UserEntity loginData) {
         return userv.login(loginData);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody String username) {
+        return userv.logout(username);
     }
 
     @PostMapping("/validateCredentials")

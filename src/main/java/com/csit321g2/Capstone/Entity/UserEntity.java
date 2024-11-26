@@ -28,11 +28,13 @@ public class UserEntity {
     private String type;
     
     private boolean isDeleted;
+    private boolean isLoggedIn;
 
     public UserEntity() {
     }
 
-    public UserEntity(String fname, String lname, String username, String department, String designation, String password, String type, boolean isDeleted) {
+    public UserEntity(String fname, String lname, String username, String department, String designation,
+            String password, String type, boolean isDeleted, boolean isLoggedIn) {
         this.fname = fname;
         this.lname = lname;
         this.username = username;
@@ -41,9 +43,11 @@ public class UserEntity {
         this.password = password;
         this.type = type;
         this.isDeleted = isDeleted;
+        this.isLoggedIn = isLoggedIn;
     }
 
-    public UserEntity(Long uid, String fname, String lname, String username, String department, String designation, String type, Boolean isDeleted) {
+    public UserEntity(long uid, String fname, String lname, String username, String department, String designation,
+            String type, boolean isDeleted, boolean isLoggedIn) {
         this.uid = uid;
         this.fname = fname;
         this.lname = lname;
@@ -52,6 +56,7 @@ public class UserEntity {
         this.designation = designation;
         this.type = type;
         this.isDeleted = isDeleted;
+        this.isLoggedIn = isLoggedIn;
     }
 
     public long getUid() {
@@ -124,6 +129,14 @@ public class UserEntity {
 
     public void setDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
     }
 
 }

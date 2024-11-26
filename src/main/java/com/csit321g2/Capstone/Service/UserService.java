@@ -117,11 +117,42 @@ public class UserService {
         if (isValidCredentials) {
             UserEntity user = urepo.findByUsernameWithoutPassword(username);
 			
+			user.setLoggedIn(true);
+			urepo.save(user);
+
 			return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+	public ResponseEntity<String> logout(String username) {
+
+		if (username == null || username.trim().isEmpty()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is required.");
+		}
+	
+		// Debug: Log the input username
+		System.out.println("Looking for user with username: " + username);
+	
+		// Find the user by username
+		UserEntity user = urepo.findByUsername(username); // Consider using IgnoreCase
+		
+		// Debug: Check what the repository returns
+		System.out.println("User found: " + user);
+	
+		if (user != null) {
+			// Set the isLoggedIn flag to false
+			user.setLoggedIn(false);
+			urepo.save(user); // Save the updated user entity to the database
+	
+			return ResponseEntity.ok("User logged out successfully.");
+		} else {
+			// Log the user if not found
+			System.out.println("User not found: " + username);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
+		}
+	}	
 
 	public List<String> getFullNamesForAccPerson() {
 		return urepo.findFullNameByAccPersonType();
