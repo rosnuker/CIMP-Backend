@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.csit321g2.Capstone.Entity.UserEntity;
@@ -60,8 +62,26 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody String username) {
+    public ResponseEntity<String> logout(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+
+        if (username == null || username.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is required.");
+        }
+
         return userv.logout(username);
+    }
+
+    @PostMapping("/setLoggedIn")
+    public ResponseEntity<String> setLoggedIn(@RequestParam String username) {
+        boolean success = userv.setLoggedInTrue(username);
+        
+        if (success) {
+            return ResponseEntity.ok("User is logged in successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body("User not found.");
+        }
     }
 
     @PostMapping("/validateCredentials")

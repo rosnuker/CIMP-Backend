@@ -113,13 +113,11 @@ public class UserService {
         String password = loginData.getPassword();
 
         boolean isValidCredentials = validateUserCredentials(username, password);
-
+		
         if (isValidCredentials) {
-            UserEntity user = urepo.findByUsernameWithoutPassword(username);
-			
-			user.setLoggedIn(true);
-			urepo.save(user);
 
+			UserEntity user = urepo.findByUsernameWithoutPassword(username);
+			
 			return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -131,28 +129,31 @@ public class UserService {
 		if (username == null || username.trim().isEmpty()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is required.");
 		}
-	
-		// Debug: Log the input username
-		System.out.println("Looking for user with username: " + username);
-	
-		// Find the user by username
-		UserEntity user = urepo.findByUsername(username); // Consider using IgnoreCase
-		
-		// Debug: Check what the repository returns
-		System.out.println("User found: " + user);
+
+		UserEntity user = urepo.findByUsername(username);
 	
 		if (user != null) {
-			// Set the isLoggedIn flag to false
+			
 			user.setLoggedIn(false);
-			urepo.save(user); // Save the updated user entity to the database
+			urepo.save(user);
 	
 			return ResponseEntity.ok("User logged out successfully.");
 		} else {
-			// Log the user if not found
-			System.out.println("User not found: " + username);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
 		}
-	}	
+	}
+
+	public boolean setLoggedInTrue(String username) {
+        UserEntity user = urepo.findByUsername(username);
+        
+        if (user != null) {
+            user.setLoggedIn(true);  // Set isLoggedIn to true
+            urepo.save(user);  // Save the updated user back to the database
+            return true;
+        }
+        
+        return false;  // User not found
+    }
 
 	public List<String> getFullNamesForAccPerson() {
 		return urepo.findFullNameByAccPersonType();
